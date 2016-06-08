@@ -1,0 +1,43 @@
+#######################################
+# ..Syntax Coloring
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Maze	KEYWORD1
+Cell	KEYWORD1
+ArrayList	KEYWORD1
+Dir	KEYWORD1
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+change			KEYWORD2
+point			KEYWORD2
+connections			KEYWORD2
+turnRight			KEYWORD2
+turnLeft			KEYWORD2
+turnBack			KEYWORD2
+straight			KEYWORD2
+finish			KEYWORD2
+solve			KEYWORD2
+autoFree			KEYWORD2
+priority			KEYWORD2
+move			KEYWORD2
+ckWise			KEYWORD2
+cntCkWise			KEYWORD2
+reverse			KEYWORD2
+relative			KEYWORD2
+add			KEYWORD2
+get			KEYWORD2
+has			KEYWORD2
+size			KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+Left	LITERAL1
+Right	LITERAL1
+Front	LITERAL1
+Back	LITERAL1
