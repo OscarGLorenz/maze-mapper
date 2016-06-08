@@ -26,7 +26,11 @@ public:
 	void add(T t);
 	//Añade al final
 
-	T get(int i);
+	T &operator[](const int i);
+
+	const T &operator[](const int i) const;
+
+	T get(const int i);
 	//Retorna el elemento especificado, si i >= size devuelve el último elemento
 
 	bool has(T n);
@@ -96,7 +100,7 @@ public:
 	void finish();
 	//Crea la celda EXIT
 
-	ArrayList<Dir> * solve();
+	ArrayList<Dir> solve();
 	//Devuelve un arraylist con las direcciones para salir
 	//lo más directo posible del laberinto
 
@@ -140,20 +144,5 @@ private:
 	//Usa heading y la dirección dada para devolver, la
 	//dirección relativa
 };
-
-//ArrayList para enteros
-/*
- class ArrayList {
- public:
- ArrayList();
- ~ArrayList();
- void add(int n);
- int get(int i);
- bool has(int n);
- int size();
- private:
- int * array;
- int lenght;
- };*/
 
 #endif

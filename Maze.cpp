@@ -222,8 +222,8 @@ Dir Maze::relative(Dir p) {
 	return FRONT;
 }
 
-ArrayList<Dir> * Maze::solve() {
-	ArrayList<Dir> * dirs = new ArrayList<Dir>();
+ArrayList<Dir> Maze::solve() {
+	ArrayList<Dir> dirs;
 	ArrayList<int> ids;
 	now = first;
 	heading = FRONT;
@@ -254,7 +254,7 @@ ArrayList<Dir> * Maze::solve() {
 	heading = reverse(heading);
 
 	for (int i = 0; now->type != EXIT; i++) {
-		ids.add(relative(priority()));
+		dirs.add(relative(priority()));
 		heading = priority();
 		now = now->point(heading);
 	}
@@ -262,107 +262,39 @@ ArrayList<Dir> * Maze::solve() {
 	return dirs;
 }
 
-/*
-Dir * Maze::solve(int * n) {
-	ArrayList<int> ids;
-	now = first;
-	heading = FRONT;
-	ids.add(now->id);
-	while (now->type != EXIT) {
-		heading = priority();
-		now = now->point(heading);
-		ids.add(now->id);
-		if (now->connections() > 2 && ids.has(now->id)) {
-			Serial.println("DELETING");
-			autoFree(reverse(heading));
-			Serial.println("END DELETE");
-		}
-	}
-
-	heading = reverse(heading);
-	now = now->point(heading);
-
-	while (now->type != ENTRY) {
-		heading = priority();
-		now = now->point(heading);
-		ids.add(now->id);
-		if (now->connections() > 2 && ids.has(now->id)) {
-			autoFree(reverse(heading));
-		}
-	}
-
-	heading = reverse(heading);
-
-	Dir * ret = 0;
-	for (int i = 0; now->type != EXIT; i++) {
-		ret = (Dir *) realloc(ret, sizeof(Dir)*(i+1));
-		ret[i] = relative(priority());
-		heading = priority();
-		now = now->point(heading);
-		*n = i;
-	}
-	return ret;
-}
-*/
-/*
-ArrayList::ArrayList() {
+template<class T> ArrayList<T>::ArrayList() {
 	lenght = 0;
 	array = 0;
 }
 
-void ArrayList::add(int n) {
+template<class T> void ArrayList<T>::add(T t) {
 	lenght++;
-	array = (int *) realloc(array, lenght*sizeof(int));
-	array[lenght-1] = n;
+	array = (T *) realloc(array, lenght * sizeof(T));
+	array[lenght - 1] = t;
 }
 
-int ArrayList::get(int i) {
-	if (i < lenght) {
-		return array[i];
+template<class T> T& ArrayList<T>::operator[](const int i) {
+	if (i < 0) {
+		return array[0];
+	} else if (i > lenght - 1) {
+		return array[lenght - 1];
 	} else {
-		return 0;
-	}
-}
-
-bool ArrayList::has(int n) {
-	for (int i = 0; i < lenght; i++ ) {
-		if (n == array[i]) {
-			return true;
-		}
-	}
-	return false;
-}
-
-int ArrayList::size() {
-	return lenght;
-}
-
-ArrayList::~ArrayList() {
-	free(array);
-}
-*/
-
-template <class T> ArrayList<T>::ArrayList() {
-	lenght = 0;
-	array = 0;
-}
-
-template <class T> void ArrayList<T>::add(T t) {
-	lenght++;
-	array = (T *) realloc(array, lenght*sizeof(T));
-	array[lenght-1] = t;
-}
-
-template <class T> T ArrayList<T>::get(int i) {
-	if (i < lenght) {
 		return array[i];
-	} else {
-		return array[lenght-1];
 	}
 }
 
-template <class T> bool ArrayList<T>::has(T t) {
-	for (int i = 0; i < lenght; i++ ) {
+template<class T> const T& ArrayList<T>::operator[](const int i) const {
+	if (i < 0) {
+		return array[0];
+	} else if (i > lenght - 1) {
+		return array[lenght - 1];
+	} else {
+		return array[i];
+	}
+}
+
+template<class T> bool ArrayList<T>::has(T t) {
+	for (int i = 0; i < lenght; i++) {
 		if (t == array[i]) {
 			return true;
 		}
@@ -370,13 +302,13 @@ template <class T> bool ArrayList<T>::has(T t) {
 	return false;
 }
 
-template <class T> int ArrayList<T>::size() {
+template<class T> int ArrayList<T>::size() {
 	return lenght;
 }
 
-template <class T> ArrayList<T>::~ArrayList() {
+template<class T> ArrayList<T>::~ArrayList() {
 	free(array);
 }
 
-template class ArrayList<int>;
-template class ArrayList<Dir>;
+template class ArrayList<int> ;
+template class ArrayList<Dir> ;

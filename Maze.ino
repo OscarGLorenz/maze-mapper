@@ -31,9 +31,9 @@ void loop() {
 			maze.turnBack();
 		} else if (string.equalsIgnoreCase("SOLVE")) {
 			Serial.println("solving....");
-			ArrayList<Dir> * dirs = maze.solve();
-			for (int i = 0; i < dirs->size(); i++) {
-				switch (dirs->get(i)) {
+			ArrayList<Dir> dirs = maze.solve();
+			for (int i = 0; i < dirs.size(); i++) {
+				switch (dirs[i]) {
 				case FRONT:
 					Serial.print("F");
 					break;
