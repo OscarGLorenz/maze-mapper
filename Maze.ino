@@ -2,11 +2,12 @@
 #include "MazeObjects.hpp"
 
 //The setup function is called once at startup of the sketch
-Maze maze;
 
 void setup() {
 	Serial.begin(9600);
 }
+
+Iterator itr;
 
 // The loop function is called in an endless loop
 void loop() {
@@ -15,23 +16,23 @@ void loop() {
 		String string = Serial.readString();
 		if (string.equalsIgnoreCase("F")) {
 			Serial.println("front");
-			maze.straight();
+			itr.move(FRONT, NORMAL);
 		} else if (string.equalsIgnoreCase("L")) {
 			Serial.println("left");
-			maze.turnLeft();
+			itr.move(LEFT, NORMAL);
 		} else if (string.equalsIgnoreCase("R")) {
 			Serial.println("right");
-			maze.turnRight();
+			itr.move(RIGHT, NORMAL);
 		} else if (string.equalsIgnoreCase("B")) {
 			Serial.println("back");
-			maze.turnBack();
+			itr.move(BACK, NORMAL);
 		} else if (string.equalsIgnoreCase("E")) {
 			Serial.println("exit");
-			maze.finish();
-			maze.turnBack();
+			itr.move(FRONT, EXIT);
+			itr.move(BACK, NORMAL);
 		} else if (string.equalsIgnoreCase("SOLVE")) {
 			Serial.println("solving....");
-			ArrayList<Dir> dirs = maze.solve();
+			ArrayList<Dir> dirs = Maze::solve();
 			for (int i = 0; i < dirs.size(); i++) {
 				switch (dirs[i]) {
 				case FRONT:
@@ -53,23 +54,23 @@ void loop() {
 				switch (string.charAt(i)) {
 				case 'F':
 				case 'f':
-					maze.straight();
+					itr.move(FRONT, NORMAL);
 					break;
 				case 'b':
 				case 'B':
-					maze.turnBack();
+					itr.move(BACK, NORMAL);
 					break;
 				case 'l':
 				case 'L':
-					maze.turnLeft();
+					itr.move(LEFT, NORMAL);
 					break;
 				case 'r':
 				case 'R':
-					maze.turnRight();
+					itr.move(RIGHT, NORMAL);
 					break;
 				case 'e':
 				case 'E':
-					maze.finish();
+					itr.move(FRONT, EXIT);
 					break;
 			}
 		}
