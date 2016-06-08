@@ -72,8 +72,8 @@ void loop() {
 				case 'E':
 					itr.move(FRONT, EXIT);
 					break;
+				}
 			}
 		}
 	}
-}
 }
