@@ -41,5 +41,10 @@
 			<type>2</type>
 			<location>/home/oscar/Escritorio/eclipseArduino/arduinoPlugin/packages/arduino/hardware/avr/1.6.10/variants/standard</location>
 		</link>
+		<link>
+			<name>libraries/MazeObjects</name>
+			<type>2</type>
+			<location>/home/oscar/Arduino/libraries/MazeObjects</location>
+		</link>
 	</linkedResources>
 </projectDescription>

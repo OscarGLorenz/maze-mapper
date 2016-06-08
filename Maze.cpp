@@ -1,4 +1,4 @@
-#include "MazeObjects.h"
+#include "MazeObjects.hpp"
 
 Cell::Cell(Dir from, Cell * fromCell, Type type, int id) {
 	front = 0;

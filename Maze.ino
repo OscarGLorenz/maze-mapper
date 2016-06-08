@@ -1,5 +1,5 @@
 #include "Arduino.h"
-#include "MazeObjects.h"
+#include "MazeObjects.hpp"
 
 //The setup function is called once at startup of the sketch
 Maze maze;
