@@ -6,6 +6,7 @@
 //Direcciones
 enum Dir {
 	FRONT, LEFT, RIGHT, BACK
+
 };
 
 //Tipos de Celda
@@ -17,60 +18,58 @@ enum Type {
 
 template<class T> class ArrayList {
 public:
-	ArrayList();
 	//Asigna a lenght y array 0
+	ArrayList();
 
+	//Libera el espacio
 	~ArrayList();
-	//Libera Espacio
 
-	void add(T t);
 	//Añade al final
+	void add(T t);
 
-	T &operator[](const int i);
+	//Modifica el elemento especificado, si i >= size modifica el último elemento, si i < 0 el primero
+	 T &operator[](const int i);
 
+	//Retorna el elemento especificado, si i >= size devuelve el último elemento, si i < 0 el primero
 	const T &operator[](const int i) const;
 
-	T get(const int i);
-	//Retorna el elemento especificado, si i >= size devuelve el último elemento
-
-	bool has(T n);
 	//Retorna true si el elemento existe en el ArrayList, debe tener definido
 	//el operador == si es un objeto
+	bool has(T t);
 
-	int size();
 	//Devuelve el número de elementos
+	int size();
 
 private:
-	T * array;
 	//Dirección del ArrayList
+	T * array;
 
-	int lenght;
 	//Numero de Elementos
+	int lenght;
 };
-
 
 //Una celda
 class Cell {
 public:
-	Cell(Dir from, Cell * fromCell, Type type, int id);
 	//Crea la celda, dada una dirección y otra celda, enlaza,
 	//el puntero de la dirección dada a la celda dada, establece
 	//el tipo de celda y le da un id
+	Cell(Dir from, Cell * fromCell, Type type);
 
-	void change(Dir dir, Cell * cell);
 	//Cambia el puntero de la dirección dada a otro dado
+	void change(Dir dir, Cell * cell);
 
-	Cell * point(Dir dir);
 	//Devuelve la dirección del puntero según la dirección dada
+	Cell * point(Dir dir);
 
-	int connections();
 	//Devuelve el número de punteros no nulos
+	int connections();
 
-	int id;
 	//Id de la celda
+	int id;
 
-	Type type;
 	//Tipo de celda
+	Type type;
 
 	//Punteros a celda en cada una de las direcciones
 	Cell * front;
@@ -79,70 +78,93 @@ public:
 	Cell * back;
 };
 
+class Iterator {
+public:
+	//Nuevo iterador, celda inicial, direccion inicial
+	Iterator();
+
+	//Nuevo iterador, celda seleccionada, direccion seleccionada
+	Iterator(Dir head, Cell * cell);
+
+	//Recorre el laberinto segun la regla especificada
+	Dir movePriority(bool rightWise);
+
+	//Moviento manual, si no hay celda, la crea;
+	void move(Dir dir, Type type);
+
+	//+180º a heading
+	void reverse();
+
+	//-90º a heading
+	void ckWise();
+
+	//+90º a heading
+	void cntWise();
+
+	//Devuelve numero de conexiones en la celda actual
+	int connections();
+
+	//Se mueve segun prioridad y elimina a su paso
+	void deleteAndMove(bool rightWise);
+
+	//Usa heading y la dirección dada para devolver, la
+	//dirección relativa
+	Dir relative(Dir p);
+
+	//Devuelve el id de la celda actual
+	int id();
+
+	//Devuelve el tipo de celda actual
+	Type type();
+
+	//Devuelve la dirección
+	Dir head();
+
+	//Devuelve la celda actual
+	Cell * actual();
+private:
+	//A que celda se apunta en esa dirección
+	Cell * point(Dir dir);
+
+	//Celda actual
+	Cell * now;
+
+	//Dirección del iterador
+	Dir heading;
+};
+
+
 //Clase Maze, administra las celdas
 class Maze {
 public:
-	Maze();
-	//Crea la primera Celda
-
-	void turnRight();
-	//Giro a la derecha, crea celda si no existe
-
-	void turnLeft();
-	//Giro a la izquierda, crea celda si no existe
-
-	void turnBack();
-	//Giro hacia atrás, crea celda si no existe
-
-	void straight();
-	//Segir recto, crea celda si no existe
-
-	void finish();
-	//Crea la celda EXIT
-
-	ArrayList<Dir> solve();
 	//Devuelve un arraylist con las direcciones para salir
 	//lo más directo posible del laberinto
+	static ArrayList<Dir> solve();
 
-	//Dir * solve(int * i);
+	//Devuelve la dirección de la primera celda
+	static Cell * getStart();
 
-private:
-	Cell * now;
-	//Contador
-
-	Cell * first;
-	//Primera Celda
-
-	Dir heading;
-	//A donde apunta la referencia móvil
-
-	int count;
-	//Contador de celdas
-
-	void autoFree(Dir dir);
-	//Elimina una rama en la direccion señalada
-
-	Dir priority();
-	//Camino prioritatio "a derechas"
-
-	void move();
-	//Se mueve hacia donde diga heading, si no existe celda,
-	//la crea
-
-	Dir ckWise(Dir dir);
 	//Da la dirección siguiente a la dada en dirección
 	//a las agujas del reloj
+	static Dir ckWise(Dir dir);
 
-	Dir cntCkWise(Dir dir);
 	//Da la dirección siguiente a la dada en dirección
 	//contraria a las agujas del reloj
+	static Dir cntCkWise(Dir dir);
 
-	Dir reverse(Dir dir);
 	//Da la dirección contraria a la dada
+	static Dir reverse(Dir dir);
 
-	Dir relative(Dir dir);
-	//Usa heading y la dirección dada para devolver, la
-	//dirección relativa
+	//Contador de celdas
+	static int count;
+private:
+	//Primera Celda
+	static Cell * first;
+
+	//Elimina una rama en la direccion señalada
+	static void autoFree(Iterator itr);
+
+
 };
 
 #endif
