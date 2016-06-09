@@ -88,6 +88,7 @@ public:
 
 	//Recorre el laberinto segun la regla especificada
 	Dir movePriority(bool rightWise);
+
 	//Moviento manual, si no hay celda, la crea;
 	void move(Dir dir, Type type);
 
@@ -119,6 +120,8 @@ public:
 	//Devuelve la dirección
 	Dir head();
 
+	//Devuelve la celda actual
+	Cell * actual();
 private:
 	//A que celda se apunta en esa dirección
 	Cell * point(Dir dir);

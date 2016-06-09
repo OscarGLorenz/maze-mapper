@@ -294,6 +294,10 @@ Dir Iterator::head() {
 	return heading;
 }
 
+Cell * Iterator::actual() {
+	return now;
+}
+
 int Maze::count = 0;
 Cell * Maze::first = new Cell(BACK, 0, ENTRY);
 
@@ -330,9 +334,22 @@ ArrayList<Dir> Maze::solve() {
 
 	itr.reverse();
 
+	if(first != itr.actual()) {
+		Serial.println("ISLAND DETECTED");
+		Iterator itrEntry;
+		while(itrEntry.actual() != itr.actual()) {
+			itrEntry.movePriority(true);
+			itr.movePriority(true);
+		}
+		itr.reverse();
+		autoFree(itr);
+		Serial.println("ISLAND DELETED, PATHS MERGED");
+	}
+
 	for (int i = 0; itr.type() != EXIT; i++) {
 		dirs.add(itr.movePriority(true));
 	}
+
 	ids2.~ArrayList();
 	return dirs;
 }
